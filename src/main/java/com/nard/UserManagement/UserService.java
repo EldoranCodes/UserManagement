@@ -1,7 +1,8 @@
-package com.example.userManagement;
+package com.nard.UserManagement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,14 +27,24 @@ public class UserService {
     userDtoList = new ArrayList<>();
 
     for (Users users : usersLists) {
-      String name = users.getFirstName() + " " + users.getLastName();
-      UserDto userDto = new UserDto(users.getId(), name);
+      UserDto userDto = new UserDto(users.getId(), users.getFirstName(), users.getLastName());
       userDtoList.add(userDto);
     }
 
     log.info("Returning {} users", userDtoList.size());
 
     return userDtoList;
+  }
+
+  public UserDto getUser(Long id) {
+    // check first if exist
+    Users user = userRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+
+    log.info("Returning UserDto with id of {}:", id);
+
+    return new UserDto(user.getId(), user.getFirstName(), user.getlastName());
+
   }
 
 }

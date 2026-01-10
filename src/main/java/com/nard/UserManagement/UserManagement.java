@@ -1,4 +1,4 @@
-package com.example.userManagement;
+package com.nard.UserManagement;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

@@ -1,8 +1,10 @@
-package com.example.userManagement;
+package com.nard.UserManagement;
 
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import org.slf4j.Logger;
@@ -22,5 +24,11 @@ public class UserController {
   @GetMapping("/users")
   public List<UserDto> getUsers() {
     return userService.getAllUsers();
+  }
+
+  @GetMapping("/users/{id}")
+  public UserDto getSingleUser(@PathVariable("id") Long id) {
+    log.info("fetching user with id: {}", id);
+    return userService.getUser(id);
   }
 }
