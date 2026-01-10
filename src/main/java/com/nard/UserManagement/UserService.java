@@ -36,15 +36,29 @@ public class UserService {
     return userDtoList;
   }
 
-  public UserDto getUser(Long id) {
+  public ApiResponse getUser(Long id) {
+
     // check first if exist
     Users user = userRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 
     log.info("Returning UserDto with id of {}:", id);
 
-    return new UserDto(user.getId(), user.getFirstName(), user.getlastName());
+    UserDto userDto = null;
+    ApiResponse apiResponse = null;
 
+    // fail response
+    boolean success = false;
+    String message = "User not found! with id: " + id;
+    if (user != null) {
+      userDto = new UserDto(user.getId(), user.getFirstName(), user.getLastName());
+
+      // if user exist chage it to success response
+      success = true;
+      message = "User found!";
+      apiResponse = new ApiResponse(false, message, userDto);
+    }
+    return apiResponse;
   }
 
 }

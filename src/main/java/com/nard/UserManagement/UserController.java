@@ -21,14 +21,26 @@ public class UserController {
     this.userService = userService;
   }
 
+  // get all users GET
   @GetMapping("/users")
-  public List<UserDto> getUsers() {
-    return userService.getAllUsers();
+  public ApiResponse getAllUsers() {
+    List<UserDto> usersDto = userService.getAllUsers();
+    return new ApiResponse(true, "List of All Users", usersDto);
   }
+  // public List<UserDto> getUsers() {
+  // return userService.getAllUsers();
+  // }
 
+  // get user GET
   @GetMapping("/users/{id}")
-  public UserDto getSingleUser(@PathVariable("id") Long id) {
+  public ApiResponse getSingleUser(@PathVariable("id") Long id) {
     log.info("fetching user with id: {}", id);
+
     return userService.getUser(id);
   }
+
+  // create user POST
+
+  // udpate user, PUT = update all user
+  //
 }

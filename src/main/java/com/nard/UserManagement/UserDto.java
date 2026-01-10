@@ -15,6 +15,8 @@ public class UserDto {
   private String name;
 
   public UserDto(long id, String firstName, String lastName) {
+    this.id = id;
+
     String name = lastName + ", " + firstName;
     this.name = name;
   }
