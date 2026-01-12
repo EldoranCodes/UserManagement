@@ -17,7 +17,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Users {
-
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
@@ -30,12 +29,25 @@ public class Users {
 
   private String role;
 
-  private String createdBy; // admin
+  private Long createdBy; // adminId || user
 
   public Users(String firstName, String lastName, String role) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.role = role;
+  }
+
+  public Users(String firstName, String lastName, String role, String username, Long createdBy) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.role = role;
+    this.username = username;
+    this.createdBy = createdBy;
+  }
+
+  @Override
+  public String toString() {
+    return "Users [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", role=" + role + "]";
   }
 
 }
