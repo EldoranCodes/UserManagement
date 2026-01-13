@@ -9,19 +9,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
-  private UserRepository userRepository;
-
   private final Logger log = LoggerFactory.getLogger(UserService.class);
 
+  private UserRepository userRepository;
+  private UserValidator userValidator;
+
   // exquivalent to @autowired
-  public UserService(UserRepository userRepository) {
+  public UserService(UserRepository userRepository, UserValidator userValidator) {
     this.userRepository = userRepository;
+    this.userValidator = userValidator;
   }
 
   public List<UserDto> getAllUsers() {
@@ -64,26 +65,10 @@ public class UserService {
   public ApiResponse createUser(UserDto userDto) {
 
     // input must not be null
-    String firstName = userDto.getFirstName();
-    String lastName = userDto.getLastName();
+    ValidationResult validatedDto = userValidator.validateUserDto(userDto);
 
-    String usernameInput = userDto.getUsername();
-    String role = userDto.getRole();
-    Long createdBy = userDto.getCreatedBy();
-    if (firstName == null) {
-      return ApiResponse.error("Invalid firstName, input must not be null");
-    }
-    if (lastName == null) {
-      return ApiResponse.error("Invalid lastName, input must not be null");
-    }
-    if (usernameInput == null) {
-      return ApiResponse.error("Invalid username, input must not be null");
-    }
-    if (role == null) {
-      return ApiResponse.error("Invalid role, input must not be null");
-    }
-    if (createdBy == null || createdBy < 1) {
-      return ApiResponse.error("Invalid createdBy, input must not be null");
+    if (!validatedDto.isValid()) {
+      return ApiResponse.error("Invalid inputs", validatedDto.getErrors());
     }
 
     // check useranme first before anuthing else
@@ -92,10 +77,10 @@ public class UserService {
       // check username
       if (u.getUsername() != null) {
         // ceheck if not null
-        if (u.getUsername().equals(usernameInput)) {
+        if (u.getUsername().equals(userDto.getUsername())) {
 
           log.info("username already exist and found in records. input username: {}  recorded username {}",
-              usernameInput,
+              userDto.getUsername(),
               u.getUsername());
           return ApiResponse.error("Username Already Exist!");
         }
@@ -103,14 +88,10 @@ public class UserService {
     }
 
     // Users adminUser = userRepository.findById(createdBy).orElse(null);
-    Optional<Users> adminOpt = userRepository.findById(createdBy);
+    Optional<Users> adminOpt = userRepository.findById(userDto.getCreatedBy());
 
     if (adminOpt.isEmpty()) {
       return ApiResponse.error("Invalid input createdBy, user admin doesnt exist!");
-    }
-
-    if (!role.equals("admin") || !role.equals("user")) {
-      return ApiResponse.error("Invalid role, input must be 'admin' or 'user'");
     }
 
     Users newUser = null;
@@ -119,7 +100,7 @@ public class UserService {
     log.info("createdBy User.getRole():{}", adminUser.getRole());
     if (adminUser.getRole().equals("admin")) {
       // create object user
-      newUser = new Users(firstName, lastName, role, usernameInput, createdBy);
+      newUser = new Users(userDto);
     } else {
       return ApiResponse.error("Invalid createdBy, input must be an admin user");
     }
@@ -141,6 +122,11 @@ public class UserService {
       return ApiResponse.error("Unexpected error while creating user.");
     }
 
+  }
+
+  public ApiResponse updateUser(Long id, UserDto userDto) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'updateUser'");
   }
 
 }

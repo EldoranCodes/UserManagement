@@ -45,6 +45,14 @@ public class Users {
     this.createdBy = createdBy;
   }
 
+  public Users(UserDto userDto) {
+    this.firstName = userDto.getFirstName();
+    this.lastName = userDto.getLastName();
+    this.role = userDto.getRole();
+    this.username = userDto.getUsername();
+    this.createdBy = userDto.getCreatedBy();
+  }
+
   @Override
   public String toString() {
     return "Users [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", role=" + role + "]";

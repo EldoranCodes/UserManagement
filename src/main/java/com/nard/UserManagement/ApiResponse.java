@@ -1,5 +1,7 @@
 package com.nard.UserManagement;
 
+import java.util.Map;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +28,10 @@ public class ApiResponse {
 
   public static ApiResponse error(String message) {
     return new ApiResponse(false, message, null);
+  }
+
+  public static ApiResponse error(String message, Map<String, String> errors) {
+    return new ApiResponse(false, message, errors);
   }
 
 }

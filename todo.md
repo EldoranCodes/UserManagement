@@ -6,10 +6,11 @@
 - update user using patch
 - delete user
  ---
-# must fix
+# must fix, and test.
 
  - errror in searching a user, if user is not found must return user not found, not Internal server error, coz, its informative for user consumer of the APi
 
 
 
-
+# improvements or extendsion
+ - validation classes can be extend to input formats and more.
