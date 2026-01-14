@@ -2,12 +2,12 @@ package com.nard.UserManagement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
@@ -82,7 +82,7 @@ public class UserService {
           log.info("username already exist and found in records. input username: {}  recorded username {}",
               userDto.getUsername(),
               u.getUsername());
-          return ApiResponse.error("Username Already Exist!");
+          return ApiResponse.error("Username already exist!");
         }
       }
     }
@@ -125,8 +125,81 @@ public class UserService {
   }
 
   public ApiResponse updateUser(Long id, UserDto userDto) {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'updateUser'");
+    // get the id of user
+    Optional<Users> userOpt = userRepository.findById(id);
+    if (userOpt.isEmpty()) {
+      return ApiResponse.error("Invalid User Id, User doesnt Exist!");
+    }
+    Users existingUser = userOpt.get();
+
+    // validate the new values
+    ValidationResult validatedDto = userValidator.validateUserDto(userDto);
+    if (!validatedDto.isValid()) {
+      return ApiResponse.error("Error updating existing user", validatedDto.getErrors());
+    }
+
+    // validates if it has same username
+    Optional<Users> sameUsername = userRepository.findByUsername(userDto.getUsername());
+
+    if (!sameUsername.isEmpty()) {
+      log.info("Error: username already exist. username input: {} existing: {} with id: {}",
+          userDto.getUsername(),
+          sameUsername.get().getUsername(),
+          sameUsername.get().getId());
+
+      return ApiResponse.error("Username already exist!");
+    }
+
+    existingUser.setFirstName(userDto.getFirstName());
+    existingUser.setLastName(userDto.getLastName());
+    existingUser.setUsername(userDto.getUsername());
+    existingUser.setPassword(userDto.getPassword());
+    existingUser.setRole(userDto.getRole().toLowerCase());
+    existingUser.setCreatedBy(userDto.getCreatedBy());
+
+    Users updatedUser = userRepository.save(existingUser);
+    return ApiResponse.ok("Success updating user id: " + id, updatedUser);
+
+  }
+
+  public ApiResponse patchUser(Long id, Map<String, Object> userAttribute) {
+
+    Optional<Users> userOpt = userRepository.findById(id);
+    if (userOpt.isEmpty()) {
+      return ApiResponse.error("Invalid user id, user doesnt exist!");
+    }
+    Users user = userOpt.get();
+
+    // check the attribute and determine what attribute
+    // check if attribute exist then get tis value
+    if (userAttribute.containsKey("firstName")) {
+      user.setFirstName((String) userAttribute.get("firstName"));
+    }
+    if (userAttribute.containsKey("lastName")) {
+      user.setLastName((String) userAttribute.get("lastName"));
+    }
+    if (userAttribute.containsKey("username")) {
+      user.setUsername((String) userAttribute.get("username"));
+    }
+    if (userAttribute.containsKey("password")) {
+      user.setPassword((String) userAttribute.get("password"));
+    }
+    if (userAttribute.containsKey("createdBy")) {
+      user.setCreatedBy((Long) userAttribute.get("createdBy"));
+    }
+    if (userAttribute.containsKey("role")) {
+      String inputRole = (String) userAttribute.get("role");
+      if (!"admin".equalsIgnoreCase(inputRole) && !"user".equalsIgnoreCase(inputRole)) {
+        return ApiResponse.error("Invalid role, input must be 'admin' or 'user'");
+      }
+      user.setRole(inputRole.toLowerCase());
+    }
+
+    Users patchedUser = userRepository.save(user);
+
+    UserDto userDto = new UserDto(patchedUser);
+
+    return ApiResponse.ok("Success Pathing user with id: " + id, userDto);
   }
 
 }

@@ -1,8 +1,11 @@
 package com.nard.UserManagement;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,7 +28,7 @@ public class UserController {
   }
 
   // get all users GET
-  @GetMapping("/user")
+  @GetMapping("/users")
   public ApiResponse getAllUsers() {
     List<UserDto> usersDto = userService.getAllUsers();
     return ApiResponse.ok("List of All Users", usersDto);
@@ -47,7 +50,14 @@ public class UserController {
 
   // udpate user, PUT = update all user
   @PutMapping("/user/{id}")
-  public ApiResponse createUser(@PathVariable("id") Long id, @RequestBody UserDto userDto) {
+  public ApiResponse updateUser(@PathVariable("id") Long id, @RequestBody UserDto userDto) {
     return userService.updateUser(id, userDto);
   }
+
+  // udpate user, PATCH = update 1 attribute
+  @PatchMapping("/user/{id}")
+  public ApiResponse patchUser(@PathVariable("id") Long id, @RequestBody Map<String, Object> jsonBody) {
+    return userService.patchUser(id, jsonBody);
+  }
+
 }

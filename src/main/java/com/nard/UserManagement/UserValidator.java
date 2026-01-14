@@ -29,7 +29,7 @@ public class UserValidator {
     if (role == null) {
       result.addError("role", "Invalid role, input must not be null");
     } else {
-      if (!role.equalsIgnoreCase("admin") || !role.equalsIgnoreCase("user")) {
+      if (!role.equalsIgnoreCase("admin") && !role.equalsIgnoreCase("user")) {
         result.addError("role", "Invalid role, input must be 'admin' or 'user'");
       }
     }

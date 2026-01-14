@@ -25,7 +25,7 @@ public class Users {
   private String lastName;
 
   private String username;
-  private String passwrod;
+  private String password;
 
   private String role;
 
