@@ -20,7 +20,7 @@ A Spring Boot REST API application for managing users, built as a learning proje
 - [Contributing](#contributing)
 - [License](#license)
 
-## 🎯 About
+## About 🎯
 
 This is a learning project focused on building a RESTful User Management System using Spring Boot and JPA. The application demonstrates CRUD operations, database persistence, and REST API best practices.
 
@@ -31,7 +31,7 @@ This is a learning project focused on building a RESTful User Management System 
 - Database integration and management
 - Exception handling and validation
 
-## ✨ Features
+## Features ✨
 
 - ✅ Create new users
 - ✅ Retrieve user information (single and all users)
@@ -41,7 +41,7 @@ This is a learning project focused on building a RESTful User Management System 
 - ✅ Exception handling
 - ✅ Database persistence with H2/MySQL/PostgreSQL
 
-## 🛠 Technology Stack
+## Technology Stack 🛠
 
 | Technology | Version | Purpose |
 |------------|---------|---------|
@@ -54,7 +54,7 @@ This is a learning project focused on building a RESTful User Management System 
 | Maven | 3.x | Build Tool |
 | Lombok | - | Reduce Boilerplate Code |
 
-## 📦 Prerequisites
+## Prerequisites 📦
 
 Before running this application, make sure you have:
 
@@ -70,7 +70,7 @@ java -version
 mvn -version
 ```
 
-## 🚀 Installation
+## Installation 🚀
 
 ### 1. Clone the Repository
 
@@ -115,7 +115,7 @@ spring.jpa.show-sql=true
 mvn clean install
 ```
 
-## 🏃 Running the Application
+## Running the Application 🏃
 
 ### Method 1: Using Maven
 
@@ -144,7 +144,7 @@ The application will start on `http://localhost:8080`
 curl http://localhost:8080/actuator/health
 ```
 
-## 📡 API Endpoints
+## API Endpoints 📡
 
 ### Base URL: `http://localhost:8080/api/v1`
 
@@ -239,7 +239,7 @@ curl http://localhost:8080/actuator/health
 
 **Response (204 No Content)**
 
-## 📁 Project Structure
+## Project Structure 📁
 
 ```
 UserManagement/
@@ -285,7 +285,7 @@ UserManagement/
 └── .gitignore
 ```
 
-## 🏗 Architecture Diagram
+## Architecture Diagram 🏗
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -329,7 +329,7 @@ UserManagement/
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## 🗄 Database Schema
+## Database Schema 🗄
 
 ### User Table
 
@@ -363,7 +363,7 @@ CREATE TABLE users (
 └─────────────────────────┘
 ```
 
-## ⚙️ Configuration
+## Configuration ⚙️
 
 ### Application Properties
 
@@ -402,7 +402,7 @@ To run with a specific profile:
 mvn spring-boot:run -Dspring-boot.run.profiles=dev
 ```
 
-## 🧪 Testing
+## Testing 🧪
 
 ### Run All Tests
 
@@ -424,7 +424,7 @@ mvn clean test jacoco:report
 
 View coverage report at: `target/site/jacoco/index.html`
 
-## 📚 Learning Resources
+## Learning Resources 📚
 
 ### Spring Boot & JPA
 - [Spring Boot Official Documentation](https://spring.io/projects/spring-boot)
@@ -439,7 +439,7 @@ View coverage report at: `target/site/jacoco/index.html`
 - Spring Boot Tutorial - Full Course (YouTube)
 - JPA & Hibernate Tutorial (YouTube)
 
-## 🤝 Contributing
+## Contributing 🤝
 
 This is a learning project, but contributions are welcome! If you'd like to contribute:
 
@@ -449,16 +449,16 @@ This is a learning project, but contributions are welcome! If you'd like to cont
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📄 License
+## License 📄
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 👨‍💻 Author
+## Author 👨‍💻
 
 **EldoranCodes**
 - GitHub: [@EldoranCodes](https://github.com/EldoranCodes)
 
-## 🙏 Acknowledgments
+## Acknowledgments 🙏
 
 - Spring Boot community for excellent documentation
 - All the tutorials and resources that made learning Spring Boot enjoyable
@@ -468,7 +468,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Happy Coding! 🚀** If you found this project helpful, please give it a ⭐️
 
-## 📞 Support
+## Support 📞
 
 If you have questions or run into issues:
 1. Check the [Issues](https://github.com/EldoranCodes/UserManagement/issues) page

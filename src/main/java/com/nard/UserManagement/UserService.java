@@ -56,7 +56,7 @@ public class UserService {
       String okMsg = "User Found with ID: " + id;
       apiResponse = ApiResponse.ok(okMsg, userDto);
     } else {
-      String errorMsg = "User Not Found with ID;" + id;
+      String errorMsg = "User Not Found with ID:" + id;
       apiResponse = ApiResponse.error(errorMsg);
     }
     return apiResponse;
@@ -200,6 +200,27 @@ public class UserService {
     UserDto userDto = new UserDto(patchedUser);
 
     return ApiResponse.ok("Success Pathing user with id: " + id, userDto);
+  }
+
+  public ApiResponse deleteUser(Long id) {
+    // find a usesr by id
+    Optional<Users> u = userRepository.findById(id);
+    if (u.isEmpty()) {
+      return ApiResponse.error("Invalid user id, user doesnt exist!");
+    }
+    // Users user = u.get();
+
+    // jpa delete
+    userRepository.deleteById(id);
+
+    // verify again, if dont exist it means its deleted
+    Optional<Users> deletedUser = userRepository.findById(id);
+
+    if (!deletedUser.isEmpty()) {
+      // this is error
+      return ApiResponse.error("Error deleting the user id:" + id + ", try again later");
+    }
+    return ApiResponse.ok("Success deleting the user id: " + id);
   }
 
 }

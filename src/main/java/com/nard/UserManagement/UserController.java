@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -58,6 +59,12 @@ public class UserController {
   @PatchMapping("/user/{id}")
   public ApiResponse patchUser(@PathVariable("id") Long id, @RequestBody Map<String, Object> jsonBody) {
     return userService.patchUser(id, jsonBody);
+  }
+
+  // udpate user, PATCH = update 1 attribute
+  @DeleteMapping("/user/{id}")
+  public ApiResponse deleteUser(@PathVariable("id") Long id) {
+    return userService.deleteUser(id);
   }
 
 }
