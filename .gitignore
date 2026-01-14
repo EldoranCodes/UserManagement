@@ -1,1 +1,8 @@
 target
+.settings
+bin/.project
+bin/todo.md
+.factorypath
+.classpath
+.project
+bin/
